@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Paper, Avatar } from "@material-ui/core";
-import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
+import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
@@ -61,12 +61,12 @@ const styles = theme => ({
   }
 });
 
-function Dashboard(props) {
+function CurrentInv(props) {
   const { classes } = props;
 
   if (!firebase.getCurrentUsername()) {
     // not logged in
-    alert("Please register or login to access your dashboard.");
+    alert("Please register or login to access Inventory.");
     props.history.replace("/login");
     return null;
   }
@@ -78,10 +78,10 @@ function Dashboard(props) {
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
-        <Typography>Still under construction, check back soon...</Typography>
+        <Typography>This is where our current inventory will be...</Typography>
       </Paper>
     </main>
   );
 }
 
-export default withRouter(withStyles(styles)(Dashboard));
+export default withRouter(withStyles(styles)(CurrentInv));

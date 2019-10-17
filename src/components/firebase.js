@@ -27,7 +27,6 @@ class Firebase {
   logout() {
     return this.auth.signOut();
   }
-
   async register(name, email, password) {
     await this.auth.createUserWithEmailAndPassword(email, password);
     return this.auth.currentUser.updateProfile({
@@ -35,14 +34,39 @@ class Firebase {
     });
   }
 
-  addWish({ wish }) {
+  addPreference({ preference }) {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
     }
-
     return this.db.doc(`users/${this.auth.currentUser.uid}`).set({
-      wish
+      preference
     });
+  }
+
+  updateProfile(name, email, preference) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+    return this.db.doc(`users/${this.auth.currentUser.uid}`).set({
+      profile: {
+        name: name,
+        email: email,
+        preference: preference
+      }
+    });
+  }
+
+  updateEmailPreference() {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+    return this.db
+      .doc(
+        `users/${this.auth.currentUser.uid}`
+      )
+      .update({
+        "profile.preference.receiveInventory" : true,
+      });
   }
 
   isInitialized() {
@@ -55,13 +79,15 @@ class Firebase {
     return this.auth.currentUser && this.auth.currentUser.displayName;
   }
 
-  async getCurrentUserWish() {
+  async getCurrentEmailPreference() {
     if (!this.auth.currentUser) {
       return null;
     }
-    const wish = await this.db.doc(`users/${this.auth.currentUser.uid}`).get();
-    return wish.get("wish");
-  }
+		const pref = await this.db.doc(`users/${this.auth.currentUser.uid}`).get()
+		return pref.get('profile.preference.receiveInventory')
+	}
+
+
 
   defineUser() {
     const user = this.auth.currentUser;

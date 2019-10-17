@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import firebase from "../firebase";
 import Contact from '../Contact';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CurrentInv from "../CurrentInv";
 
 const theme = createMuiTheme();
 
@@ -33,6 +34,7 @@ export default function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/currentinv" component={CurrentInv} />
         </Switch>
       </Router>
     </MuiThemeProvider>
