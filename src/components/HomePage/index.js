@@ -3,6 +3,7 @@ import { Typography, Paper, Avatar, Button } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
+import logo from "../../MM-Icon1.png";
 
 const styles = theme => ({
   main: {
@@ -43,6 +44,10 @@ const styles = theme => ({
 		'&:hover': {
 			background: "#ff9999",
 		}
+  },
+  NavBrand: {
+	  height: theme.spacing(10),
+	  width: 'auto',
   }
   
 });
@@ -60,7 +65,7 @@ function HomePage(props) {
           Welcome to
         </Typography>
         <Typography style={{ textAlign: "center" }} component="h2" variant="h3">
-          Miracle Motors
+        <a href={'/dashboard'}><img src={logo} className={classes.NavBrand} alt="logo"/></a>
         </Typography>
         <Typography style={{ textAlign: "center" }} component="h1" variant="h6">
           Register for access

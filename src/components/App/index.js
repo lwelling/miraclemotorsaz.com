@@ -9,6 +9,7 @@ import { CssBaseline, CircularProgress } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import firebase from "../firebase";
 import Contact from '../Contact';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const theme = createMuiTheme();
 
@@ -20,6 +21,7 @@ export default function App() {
         setFirebaseInitialized(val)
     })
   })
+
 
   return firebaseInitialized !== false ? (
     <MuiThemeProvider theme={theme}>
