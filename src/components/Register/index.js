@@ -28,22 +28,36 @@ const styles = theme => ({
     }
   },
   paper: {
+    background: 'linear-gradient(165deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)',
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
+      2
+    )}px ${theme.spacing(2)}px`
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
-  submit: {
-    marginTop: theme.spacing(3)
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: '#4da6ff',
+	},
+	root1: {
+		marginTop: theme.spacing(3),
+		backgroundColor: '#4da6ff',
+		'&:hover': {
+			background: "#99ccff",
+		}
+  },
+  root2: {
+		marginTop: theme.spacing(3),
+		backgroundColor: '#ff6666',
+		'&:hover': {
+			background: "#ff9999",
+		}
   }
 });
 
@@ -137,7 +151,7 @@ function Register(props) {
             variant="contained"
             color="primary"
             onClick={onRegister}
-            className={classes.submit}
+            className={classes.root1}
           >
             Register
           </Button>
@@ -149,7 +163,7 @@ function Register(props) {
             color="secondary"
             component={Link}
             to="/login"
-            className={classes.submit}
+            className={classes.root2}
           >
             Go back to Login
           </Button>

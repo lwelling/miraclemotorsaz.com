@@ -17,6 +17,7 @@ const styles = theme => ({
     }
   },
   paper: {
+    background: 'linear-gradient(180deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)',
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
@@ -25,13 +26,25 @@ const styles = theme => ({
       2
     )}px ${theme.spacing(2)}px`
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: '#4da6ff',
+	},
+	root1: {
+		marginTop: theme.spacing(3),
+		backgroundColor: '#4da6ff',
+		'&:hover': {
+			background: "#99ccff",
+		}
   },
-  submit: {
-    marginTop: theme.spacing(3)
+  root2: {
+		marginTop: theme.spacing(3),
+		backgroundColor: '#ff6666',
+		'&:hover': {
+			background: "#ff9999",
+		}
   }
+  
 });
 
 function HomePage(props) {
@@ -59,7 +72,7 @@ function HomePage(props) {
           color="secondary"
           component={Link}
           to="/register"
-          className={classes.submit}
+          className={classes.root1}
         >
           Register
         </Button>
@@ -70,7 +83,7 @@ function HomePage(props) {
           color="secondary"
           component={Link}
           to="/login"
-          className={classes.submit}
+          className={classes.root2}
         >
           Login
         </Button>

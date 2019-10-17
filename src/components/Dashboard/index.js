@@ -8,6 +8,7 @@ import { withRouter, Link } from 'react-router-dom'
 const styles = theme => ({
 	main: {
 		width: 'auto',
+		backgroundColor: '#e6f2ff',
 		display: 'block', // Fix IE 11 issue.
 		marginLeft: theme.spacing(3),
 		marginRight: theme.spacing(3),
@@ -18,19 +19,34 @@ const styles = theme => ({
 		},
 	},
 	paper: {
+		background: 'linear-gradient(175deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)',
 		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
-	},
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
+		  2
+		)}px ${theme.spacing(2)}px`
+	  },
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: '#4da6ff',
+		secondary: 'red'
 	},
-	submit: {
+	root1: {
 		marginTop: theme.spacing(3),
-	},
+		backgroundColor: '#4da6ff',
+		'&:hover': {
+			background: "#99ccff",
+		}
+  },
+  root2: {
+		marginTop: theme.spacing(3),
+		backgroundColor: '#ff6666',
+		'&:hover': {
+			background: "#ff9999",
+		}
+  }
 })
 
 function Dashboard(props) {
@@ -67,7 +83,7 @@ function Dashboard(props) {
 					variant="contained"
 					color="secondary"
 					onClick={logout}
-					className={classes.submit}>
+					className={classes.root1}>
 					Logout
           		</Button>
 				<Button
@@ -77,7 +93,7 @@ function Dashboard(props) {
 					fullWidth
 					variant="contained"
 					color="secondary"
-					className={classes.submit}>
+					className={classes.root2}>
                         Contact Us
           		</Button>
 			</Paper>
