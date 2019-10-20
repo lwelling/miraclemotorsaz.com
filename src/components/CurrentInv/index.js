@@ -60,17 +60,14 @@ const styles = theme => ({
     width: "auto"
   }
 });
-
 function CurrentInv(props) {
   const { classes } = props;
 
   if (!firebase.getCurrentUsername()) {
-    // not logged in
     alert("Please register or login to access Inventory.");
     props.history.replace("/login");
     return null;
   }
-
   return (
     <main className={classes.main}>
       <NavigationBar />

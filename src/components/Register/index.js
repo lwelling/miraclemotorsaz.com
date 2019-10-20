@@ -59,12 +59,13 @@ const styles = theme => ({
     "&:hover": {
       background: "#ff9999"
     }
+  },
+  Switch: {
+    color: "#4da6ff"
   }
 });
-
 function Register(props) {
   const { classes } = props;
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -72,11 +73,9 @@ function Register(props) {
     licensedDealer: false,
     receiveInventory: true
   });
-
   const handleChange = name => event => {
     setpreference({ ...preference, [name]: event.target.checked });
   };
-
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
@@ -126,26 +125,28 @@ function Register(props) {
             control={
               <Switch
                 required
+                variant="primary"
+                className={classes.Switch}
                 checked={preference.licensedDealer}
                 onChange={handleChange("licensedDealer")}
                 value="licensedDealer"
-                inputProps={{ "aria-label": "secondary checkbox" }}
+                inputProps={{ "aria-label": "primary checkbox" }}
               />
             }
             label="I am a licensed auto dealer"
           />
-          <FormControlLabel 
+          <FormControlLabel
             control={
               <Switch
+                className={classes.Switch}
                 checked={preference.receiveInventory}
                 onChange={handleChange("receiveInventory")}
                 value="receiveInventory"
-                inputProps={{ "aria-label": "secondary checkbox" }}
+                inputProps={{ "aria-label": "primary checkbox" }}
               />
             }
             label="I want to receive weekly inventory"
           />
-
           <Button
             type="submit"
             fullWidth
@@ -156,7 +157,6 @@ function Register(props) {
           >
             Register
           </Button>
-
           <Button
             type="submit"
             fullWidth
@@ -172,18 +172,18 @@ function Register(props) {
       </Paper>
     </main>
   );
-
   async function onRegister() {
-    if(!!email && !!name && !!password & !!preference.licensedDealer) {
-    try {
-      await firebase.register(name, email, password);
-      await firebase.addPreference({ preference });
-      await firebase.updateProfile(name, email, preference)
-      props.history.replace("/dashboard");
-    } catch (error) {
-      alert(error.message);
-    }} else {
-      alert('Please fill out form entirely')
+    if (!!email && !!name && !!password & !!preference.licensedDealer) {
+      try {
+        await firebase.register(name, email, password);
+        await firebase.addPreference({ preference });
+        await firebase.updateProfile(name, email, preference);
+        props.history.replace("/dashboard");
+      } catch (error) {
+        alert(error.message);
+      }
+    } else {
+      alert("Please fill out form entirely");
     }
   }
 }

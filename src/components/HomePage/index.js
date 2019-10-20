@@ -18,7 +18,8 @@ const styles = theme => ({
     }
   },
   paper: {
-    background: 'linear-gradient(180deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)',
+    background:
+      "linear-gradient(180deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
@@ -27,48 +28,56 @@ const styles = theme => ({
       2
     )}px ${theme.spacing(2)}px`
   },
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: '#4da6ff',
-	},
-	root1: {
-		marginTop: theme.spacing(3),
-		backgroundColor: '#4da6ff',
-		'&:hover': {
-			background: "#99ccff",
-		}
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: "#4da6ff"
+  },
+  root1: {
+    marginTop: theme.spacing(3),
+    backgroundColor: "#4da6ff",
+    "&:hover": {
+      background: "#99ccff"
+    }
   },
   root2: {
-		marginTop: theme.spacing(3),
-		backgroundColor: '#ff6666',
-		'&:hover': {
-			background: "#ff9999",
-		}
+    marginTop: theme.spacing(3),
+    backgroundColor: "#ff6666",
+    "&:hover": {
+      background: "#ff9999"
+    }
   },
   NavBrand: {
-	  height: theme.spacing(10),
-	  width: 'auto',
+    height: theme.spacing(10),
+    width: "auto"
   }
-  
 });
 
 function HomePage(props) {
   const { classes } = props;
-
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
-        <Typography style={{ textAlign: "center" }} component="h1" variant="h5">
+        <Typography
+          style={{ color: "#0a1a29", textAlign: "center" }}
+          component="h1"
+          variant="h5"
+        >
           Welcome to
         </Typography>
         <Typography style={{ textAlign: "center" }} component="h2" variant="h3">
-        <a href={'/dashboard'}><img src={logo} className={classes.NavBrand} alt="logo"/></a>
+          <a href={"/dashboard"}>
+            <img src={logo} className={classes.NavBrand} alt="logo" />
+          </a>
         </Typography>
-        <Typography style={{ textAlign: "center" }} component="h1" variant="h6">
-          Register for access
+        <Typography
+          style={{ color: "#0a1a29", textAlign: "center" }}
+          component="h1"
+          variant="h6"
+        >
+          Login or Register <br /> for access
         </Typography>
         <Button
           type="submit"

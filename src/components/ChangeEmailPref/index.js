@@ -13,6 +13,13 @@ const ChangeEmailPref = props => {
 
   const handleShow = () => {
     setShow(true);
+  };
+
+  if (!firebase.getCurrentUsername()) {
+    // not logged in
+    alert("Please register or login to access your dashboard.");
+    props.history.replace("/login");
+    return null;
   }
 
   return (
@@ -20,7 +27,6 @@ const ChangeEmailPref = props => {
       <Button variant="primary" onClick={handleShow}>
         Sign up for fresh inventory weekly!
       </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Sign up for Fresh Inventory</Modal.Title>
@@ -37,7 +43,6 @@ const ChangeEmailPref = props => {
               onClick={() => {
                 firebase.updateEmailPreference();
                 handleClose();
-
               }}
             >
               Sign up now

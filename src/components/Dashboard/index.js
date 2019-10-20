@@ -5,6 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
 import NavigationBar from "../NavigationBar";
+import { Button, Jumbotron, Container, Col, Row } from "react-bootstrap";
 
 const styles = theme => ({
   main: {
@@ -50,27 +51,25 @@ const styles = theme => ({
       background: "#ff9999"
     }
   },
-
   fauxList: {
     listStyleType: "none"
   },
-
   NavBrand: {
     height: theme.spacing(10),
     width: "auto"
+  },
+  Jumbotron: {
+    textAlign: "center"
   }
 });
-
 function Dashboard(props) {
   const { classes } = props;
-
   if (!firebase.getCurrentUsername()) {
     // not logged in
     alert("Please register or login to access your dashboard.");
     props.history.replace("/login");
     return null;
   }
-
   return (
     <main className={classes.main}>
       <NavigationBar />
@@ -79,6 +78,37 @@ function Dashboard(props) {
           <VerifiedUserOutlined />
         </Avatar>
         <Typography>Still under construction, check back soon...</Typography>
+        <Jumbotron className={classes.Jumbotron} fluid>
+          <Container>
+            <h5>Welcome to your</h5>
+            <h1>Dashboard</h1>
+            <Row>
+              <Col>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="primary"
+                  href={"/wishlist"}
+                  className={classes.root1}
+                >
+                  WishList
+                </Button>{" "}
+                <br />
+              </Col>
+              <Col>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="secondary"
+                  href={"/currentinv"}
+                  className={classes.root2}
+                >
+                  Inventory
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        </Jumbotron>
       </Paper>
     </main>
   );

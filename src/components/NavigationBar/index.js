@@ -14,21 +14,21 @@ const NavigationBar = props => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">
+      <Navbar.Brand href="/dashboard">
         <img style={{ height: "75px", width: "auto" }} src={logo} alt="logo" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
+          <Nav.Link href="/currentinv">Inventory</Nav.Link>
           <Nav.Link href="/dashboard">Dashboard</Nav.Link>
           <Nav.Link href="/contact">Contact</Nav.Link>
+          <Nav.Link href="#action/3.3">BidBetter</Nav.Link>
           <NavDropdown
             title={firebase.getCurrentUsername()}
             id="basic-nav-dropdown"
           >
             <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">WishList</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">BidBetter</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={logout}>Log out</NavDropdown.Item>
             <NavDropdown.Divider />
