@@ -86,7 +86,6 @@ function Dashboard(props) {
               <Col>
                 <Button
                   type="submit"
-                  fullWidth
                   variant="primary"
                   href={"/wishlist"}
                   className={classes.root1}
@@ -98,9 +97,8 @@ function Dashboard(props) {
               <Col>
                 <Button
                   type="submit"
-                  fullWidth
                   variant="secondary"
-                  href={"/currentinv"}
+                  href={"/inventory"}
                   className={classes.root2}
                 >
                   Inventory

@@ -1,13 +1,10 @@
 import React from "react";
-import { Paper, Avatar } from "@material-ui/core";
+import { Typography, Paper, Avatar } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
+import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
 import NavigationBar from "../NavigationBar";
-import AddToWishList from "../AddToWishList";
-import DisplayWishList from "../DisplayWishList";
-import firebase from '../firebase';
-
 
 const styles = theme => ({
   main: {
@@ -63,10 +60,14 @@ const styles = theme => ({
     width: "auto"
   }
 });
-
-const WishList = props => {
-  firebase.getWishList();
+function Profile(props) {
   const { classes } = props;
+
+  if (!firebase.getCurrentUsername()) {
+    alert("Please register or login to access Inventory.");
+    props.history.replace("/login");
+    return null;
+  }
   return (
     <main className={classes.main}>
       <NavigationBar />
@@ -74,11 +75,10 @@ const WishList = props => {
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
-        <AddToWishList />
-        <DisplayWishList />
+        <Typography>This is where your profile page will be...</Typography>
       </Paper>
     </main>
   );
-};
+}
 
-export default withRouter(withStyles(styles)(WishList));
+export default withRouter(withStyles(styles)(Profile));

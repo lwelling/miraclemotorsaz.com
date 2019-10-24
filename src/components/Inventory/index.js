@@ -60,7 +60,7 @@ const styles = theme => ({
     width: "auto"
   }
 });
-function CurrentInv(props) {
+function Inventory(props) {
   const { classes } = props;
 
   if (!firebase.getCurrentUsername()) {
@@ -81,4 +81,4 @@ function CurrentInv(props) {
   );
 }
 
-export default withRouter(withStyles(styles)(CurrentInv));
+export default withRouter(withStyles(styles)(Inventory));

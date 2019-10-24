@@ -8,7 +8,7 @@ const ChangeEmailPref = props => {
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
-    props.history.push("/currentinv");
+    props.history.push("/inventory");
   };
 
   const handleShow = () => {

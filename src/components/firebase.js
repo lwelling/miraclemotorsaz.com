@@ -56,17 +56,24 @@ class Firebase {
     });
   }
 
+  addToWishList(newVehicle) {
+    return this.db.doc(`users/${this.auth.currentUser.uid}`).set(
+      {
+        wishList: {
+          newVehicle
+        }
+      },
+      { merge: true }
+    );
+  }
+
   updateEmailPreference() {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
     }
-    return this.db
-      .doc(
-        `users/${this.auth.currentUser.uid}`
-      )
-      .update({
-        "profile.preference.receiveInventory" : true,
-      });
+    return this.db.doc(`users/${this.auth.currentUser.uid}`).update({
+      "profile.preference.receiveInventory": true
+    });
   }
 
   isInitialized() {
@@ -83,11 +90,9 @@ class Firebase {
     if (!this.auth.currentUser) {
       return null;
     }
-		const pref = await this.db.doc(`users/${this.auth.currentUser.uid}`).get()
-		return pref.get('profile.preference.receiveInventory')
-	}
-
-
+    const pref = await this.db.doc(`users/${this.auth.currentUser.uid}`).get();
+    return pref.get("profile.preference.receiveInventory");
+  }
 
   defineUser() {
     const user = this.auth.currentUser;
@@ -101,6 +106,22 @@ class Firebase {
       return null;
     }
   }
+
+  getWishList() {
+    this.db.doc(`users/${this.auth.currentUser.uid}`).get()
+    .then(function(doc) {
+      if(doc.exists) {
+        let newVehicle = doc.data().wishList.newVehicle
+        console.log(newVehicle)
+        return newVehicle
+      } else {
+        console.log("No Such Document!")
+      }
+    }).catch(function(error) {
+      console.log('Error getting document: ', error)
+    })
+  }
+
 }
 
 export default new Firebase();

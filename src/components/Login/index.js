@@ -3,10 +3,8 @@ import { Typography, Paper, Avatar, Button, FormControl, Input, InputLabel } fro
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux';
 import firebase from '../firebase';
 
-import { addTodo } from '../../actions';
 const styles = theme => ({
 	main: {
 		width: 'auto',
@@ -97,23 +95,6 @@ function SignIn(props) {
 						className={classes.root2}>
 						Register
 					</Button>
-					<Button
-						type="button"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.root1}
-						onClick={() => { props.addTodo(email); console.log('todos: ', props.todos) }}
-					>
-						TEST
-					</Button>
-					{
-						props.todos.map((todo, i) => (
-							<Button key={i} type="button" fullWidth variant="contained" color="secondary">
-								{todo.text}
-							</Button>
-						))
-					}
 				</form>
 			</Paper>
 		</main> 
@@ -129,11 +110,4 @@ function SignIn(props) {
 	}
 }
 
-const mapStateToProps = state => {
-	console.log('state here: ', state);
-	return {
-		todos: state.todos,
-	};
-};
-
-export default connect(mapStateToProps, { addTodo })(withRouter(withStyles(styles)(SignIn)))
+export default withRouter(withStyles(styles)(SignIn))
