@@ -1,6 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import NavigationBar from "../NavigationBar";
+import NavigationBar from "../NavigationBar/index";
 import { Typography, Paper, Avatar } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -63,6 +62,7 @@ const styles = theme => ({
 
 const Contact = (props) => {
   const { classes } = props;
+
   return (
     <main className={classes.main}>
       <NavigationBar />
@@ -76,4 +76,4 @@ const Contact = (props) => {
   );
 }
 
-export default withRouter(withStyles(styles)(Contact));
+export default withStyles(styles)(Contact);

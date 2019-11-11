@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import logo from "../../MM-Icon1.png";
 import { withRouter } from "react-router-dom";
-import firebase from "../firebase";
+
 import ChangeEmailPref from "../ChangeEmailPref";
+import firebase from "../firebase";
+import logo from "../../MM-Icon1.png";
 
 const NavigationBar = props => {
   const [preference, setPreference] = useState("");
@@ -14,7 +15,7 @@ const NavigationBar = props => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/dashboard">
+      <Navbar.Brand href="/">
         <img style={{ height: "75px", width: "auto" }} src={logo} alt="logo" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

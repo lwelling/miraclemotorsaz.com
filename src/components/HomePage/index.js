@@ -2,8 +2,9 @@ import React from "react";
 import { Typography, Paper, Avatar, Button } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import logo from "../../MM-Icon1.png";
+import firebase from '../firebase';
 
 const styles = theme => ({
   main: {
@@ -54,7 +55,8 @@ const styles = theme => ({
 
 function HomePage(props) {
   const { classes } = props;
-  return (
+  
+  return firebase.checkAuthStatus() === true ? (<Redirect to={{ pathname: '/dashboard', state: { from: props.location }}} />) : ( 
     <main className={classes.main}>
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -103,7 +105,7 @@ function HomePage(props) {
         </Button>
       </Paper>
     </main>
-  );
+  )
 }
 
 export default withStyles(styles)(HomePage);

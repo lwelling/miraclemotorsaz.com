@@ -2,10 +2,9 @@ import React from "react";
 import { Typography, Paper, Avatar } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
-import firebase from "../firebase";
-import { withRouter } from "react-router-dom";
-import NavigationBar from "../NavigationBar";
 import { Button, Jumbotron, Container, Col, Row } from "react-bootstrap";
+
+import NavigationBar from "../NavigationBar";
 
 const styles = theme => ({
   main: {
@@ -62,14 +61,9 @@ const styles = theme => ({
     textAlign: "center"
   }
 });
+
 function Dashboard(props) {
   const { classes } = props;
-  if (!firebase.getCurrentUsername()) {
-    // not logged in
-    alert("Please register or login to access your dashboard.");
-    props.history.replace("/login");
-    return null;
-  }
   return (
     <main className={classes.main}>
       <NavigationBar />
@@ -112,4 +106,4 @@ function Dashboard(props) {
   );
 }
 
-export default withRouter(withStyles(styles)(Dashboard));
+export default withStyles(styles)(Dashboard);

@@ -18,6 +18,9 @@ class Firebase {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.firestore();
+    this.state = {
+      isAuth: false
+    };
   }
 
   login(email, password) {
@@ -35,42 +38,38 @@ class Firebase {
   }
 
   addPreference({ preference }) {
-    if (!this.auth.currentUser) {
-      return alert("Not authorized");
-    }
     return this.db.doc(`users/${this.auth.currentUser.uid}`).set({
       preference
     });
   }
 
   updateProfile(name, email, preference) {
-    if (!this.auth.currentUser) {
-      return alert("Not authorized");
-    }
     return this.db.doc(`users/${this.auth.currentUser.uid}`).set({
       profile: {
         name: name,
         email: email,
-        preference: preference
+        preference: preference,
+        wishList: []
       }
     });
   }
 
   addToWishList(newVehicle) {
-    return this.db.doc(`users/${this.auth.currentUser.uid}`).set(
+    const wishListRef = this.db
+      .collection("users")
+      .doc(`${this.auth.currentUser.uid}`);
+    
+    wishListRef.set(
       {
-        wishList: {
+        wishList: [
           newVehicle
-        }
+        ]
       },
       { merge: true }
     );
   }
 
   updateEmailPreference() {
-    if (!this.auth.currentUser) {
-      return alert("Not authorized");
-    }
     return this.db.doc(`users/${this.auth.currentUser.uid}`).update({
       "profile.preference.receiveInventory": true
     });
@@ -84,6 +83,15 @@ class Firebase {
 
   getCurrentUsername() {
     return this.auth.currentUser && this.auth.currentUser.displayName;
+  }
+
+  checkAuthStatus() {
+    const user = this.auth.currentUser;
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async getCurrentEmailPreference() {
@@ -107,21 +115,15 @@ class Firebase {
     }
   }
 
-  getWishList() {
-    this.db.doc(`users/${this.auth.currentUser.uid}`).get()
-    .then(function(doc) {
-      if(doc.exists) {
-        let newVehicle = doc.data().wishList.newVehicle
-        console.log(newVehicle)
-        return newVehicle
-      } else {
-        console.log("No Such Document!")
-      }
-    }).catch(function(error) {
-      console.log('Error getting document: ', error)
-    })
+  async getWishList() {
+    if (!this.auth.currentUser) {
+      return null;
+    }
+    const wishList = await this.db
+      .doc(`users/${this.auth.currentUser.uid}`)
+      .get();
+    return wishList.get("wishList.newVehicle");
   }
-
 }
 
 export default new Firebase();

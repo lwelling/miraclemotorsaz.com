@@ -14,6 +14,7 @@ import Contact from "../Contact";
 import Inventory from "../Inventory";
 import WishList from "../WishList";
 import Profile from "../Profile";
+import PrivateRoute from "../PrivateRoute";
 
 const theme = createMuiTheme();
 
@@ -33,10 +34,10 @@ export default function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/contact" component={Contact} />
-            <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/inventory" component={Inventory} />
-            <Route exact path="/wishlist" component={WishList} />
-            <Route exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/inventory" component={Inventory} />
+            <PrivateRoute exact path="/wishlist" component={WishList} />
+            <PrivateRoute exact path="/profile" component={Profile} />
           </Switch>
         </Router>
       </MuiThemeProvider>

@@ -1,10 +1,7 @@
-import React from 'react';
+import React from "react";
 
-
-const DisplayWishList = () => {
-    return(
-        <h5>This is where the display should be...</h5>
-    )
+const DisplayWishList = ({ year, make, model, price, miles }) => {
+  return <>This is where the list of vehicles should display</>;
 };
 
 export default DisplayWishList;

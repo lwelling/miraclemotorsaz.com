@@ -2,7 +2,7 @@ import React from "react";
 import { Paper, Avatar } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { withRouter } from "react-router-dom";
+
 import NavigationBar from "../NavigationBar";
 import AddToWishList from "../AddToWishList";
 import DisplayWishList from "../DisplayWishList";
@@ -65,8 +65,11 @@ const styles = theme => ({
 });
 
 const WishList = props => {
-  firebase.getWishList();
   const { classes } = props;
+
+  const currentWish = firebase.getWishList();
+  console.log(currentWish)
+
   return (
     <main className={classes.main}>
       <NavigationBar />
@@ -81,4 +84,4 @@ const WishList = props => {
   );
 };
 
-export default withRouter(withStyles(styles)(WishList));
+export default withStyles(styles)(WishList);

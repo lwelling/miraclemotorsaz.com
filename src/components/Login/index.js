@@ -52,7 +52,6 @@ const styles = theme => ({
 })
 
 function SignIn(props) {
-	console.log('props: ', props);
 	const { classes } = props
 
     const [email, setEmail] = useState('')

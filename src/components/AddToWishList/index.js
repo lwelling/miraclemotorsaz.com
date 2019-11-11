@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { withRouter } from "react-router-dom";
 import firebase from "../firebase";
 
 const AddToWishList = props => {
@@ -19,7 +18,6 @@ const AddToWishList = props => {
   const [model, setModel] = useState('');
   const [price, setPrice] = useState('');
   const [miles, setMiles] = useState('');
-
 
   const newVehicle = {
     year,
@@ -103,4 +101,4 @@ const AddToWishList = props => {
   );
 };
 
-export default withRouter(AddToWishList);
+export default AddToWishList;
