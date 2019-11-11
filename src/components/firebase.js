@@ -30,6 +30,7 @@ class Firebase {
   logout() {
     return this.auth.signOut();
   }
+
   async register(name, email, password) {
     await this.auth.createUserWithEmailAndPassword(email, password);
     return this.auth.currentUser.updateProfile({
@@ -45,33 +46,31 @@ class Firebase {
 
   updateProfile(name, email, preference) {
     return this.db.doc(`users/${this.auth.currentUser.uid}`).set({
-      profile: {
-        name: name,
-        email: email,
-        preference: preference,
-        wishList: []
-      }
+      name,
+      email,
+      preference
     });
   }
 
   addToWishList(newVehicle) {
+    const { year, make, model, miles, price } = newVehicle;
     const wishListRef = this.db
       .collection("users")
-      .doc(`${this.auth.currentUser.uid}`);
-    
-    wishListRef.set(
-      {
-        wishList: [
-          newVehicle
-        ]
-      },
-      { merge: true }
-    );
+      .doc(`${this.auth.currentUser.uid}`)
+      .collection("wishList");
+
+    wishListRef.add({
+      year,
+      make,
+      model,
+      miles,
+      price
+    });
   }
 
   updateEmailPreference() {
     return this.db.doc(`users/${this.auth.currentUser.uid}`).update({
-      "profile.preference.receiveInventory": true
+      "preference.receiveInventory": true
     });
   }
 
@@ -99,7 +98,7 @@ class Firebase {
       return null;
     }
     const pref = await this.db.doc(`users/${this.auth.currentUser.uid}`).get();
-    return pref.get("profile.preference.receiveInventory");
+    return pref.get("preference.receiveInventory");
   }
 
   defineUser() {
@@ -116,13 +115,22 @@ class Firebase {
   }
 
   async getWishList() {
+    const ref = await this.getWishListRef();
+    const list = await this.db.doc(`/wishLists/${ref.id}`)
+      .get()
+      .then(doc => doc.data());
+    return list;
+  }
+
+  async getWishListRef() {
     if (!this.auth.currentUser) {
       return null;
     }
-    const wishList = await this.db
+    const wishListRef = await this.db
       .doc(`users/${this.auth.currentUser.uid}`)
-      .get();
-    return wishList.get("wishList.newVehicle");
+      .get()
+      .then(doc => doc.data().wishListRef)
+    return wishListRef;
   }
 }
 

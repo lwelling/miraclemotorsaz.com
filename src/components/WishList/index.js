@@ -64,24 +64,43 @@ const styles = theme => ({
   }
 });
 
-const WishList = props => {
-  const { classes } = props;
+class WishList extends React.Component {
 
-  const currentWish = firebase.getWishList();
-  console.log(currentWish)
+  state = {
+    wishListItems: [],
+  };
 
-  return (
-    <main className={classes.main}>
-      <NavigationBar />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <VerifiedUserOutlined />
-        </Avatar>
-        <AddToWishList />
-        <DisplayWishList />
-      </Paper>
-    </main>
-  );
-};
+  componentDidMount() {
+    this.updateWishList();
+  }
+
+  updateWishList = async () => {
+    const wishList = await firebase.getWishList();
+    if (wishList && wishList.listItems) {
+      this.setState(prevState => ({
+        ...prevState,
+        wishListItems: wishList.listItems,
+      }));
+    }
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    console.log('this.state.wishListItems: ', this.state.wishListItems);
+    return (
+      <main className={classes.main}>
+        <NavigationBar />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <VerifiedUserOutlined />
+          </Avatar>
+          <AddToWishList />
+          <DisplayWishList list={this.state.wishListItems} />
+        </Paper>
+      </main>
+    );
+  }
+}
 
 export default withStyles(styles)(WishList);
