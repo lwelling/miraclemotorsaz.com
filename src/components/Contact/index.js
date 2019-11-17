@@ -1,9 +1,9 @@
 import React from "react";
 import NavigationBar from "../NavigationBar/index";
-import { Typography, Paper, Avatar } from "@material-ui/core";
-import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
+import { Typography, Button, Card, Avatar } from "@material-ui/core";
+import VerifiedUserOutlined from "@material-ui/icons/Email";
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import { Form } from "react-bootstrap";
 
 const styles = theme => ({
   main: {
@@ -19,9 +19,9 @@ const styles = theme => ({
       marginRight: "auto"
     }
   },
-  paper: {
+  card: {
     background:
-      "linear-gradient(175deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
+      "linear-gradient(20deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
     marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
@@ -30,6 +30,7 @@ const styles = theme => ({
       2
     )}px ${theme.spacing(2)}px`
   },
+
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: "#4da6ff",
@@ -40,7 +41,8 @@ const styles = theme => ({
     backgroundColor: "#4da6ff",
     "&:hover": {
       background: "#99ccff"
-    }
+    },
+    width: "100%"
   },
   root2: {
     marginTop: theme.spacing(3),
@@ -57,23 +59,37 @@ const styles = theme => ({
   NavBrand: {
     height: theme.spacing(10),
     width: "auto"
-  }
+  },
 });
 
-const Contact = (props) => {
+const Contact = props => {
   const { classes } = props;
 
   return (
     <main className={classes.main}>
       <NavigationBar />
-      <Paper className={classes.paper}>
+      <Card className={classes.card}>
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
-        <Typography>This is where the contact form will be...</Typography>
-      </Paper>
+        <Typography>Contact us</Typography>
+        <Form>
+          <Form.Group controlId="email.controlInput">
+            <Form.Control type="email" placeholder="email" />
+          </Form.Group>
+          <Form.Group controlId="subject.controlInput">
+            <Form.Control type="text" placeholder="subject" />
+          </Form.Group>
+          <Form.Group controlId="message.controlInput">
+            <Form.Control as="textarea" rows="5" width="auto" placeholder="message" />
+          </Form.Group>
+          <Button className={classes.root1} type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Card>
     </main>
   );
-}
+};
 
 export default withStyles(styles)(Contact);

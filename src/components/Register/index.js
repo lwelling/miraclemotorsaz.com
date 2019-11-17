@@ -64,6 +64,7 @@ const styles = theme => ({
     color: "#4da6ff"
   }
 });
+
 function Register(props) {
   const { classes } = props;
   const [name, setName] = useState("");
@@ -76,6 +77,7 @@ function Register(props) {
   const handleChange = name => event => {
     setpreference({ ...preference, [name]: event.target.checked });
   };
+  
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>

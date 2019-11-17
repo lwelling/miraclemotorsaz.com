@@ -22,6 +22,7 @@ const NavigationBar = props => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="/inventory">Inventory</Nav.Link>
+          <Nav.Link href="/wishlist">WishList</Nav.Link>
           <Nav.Link href="/contact">Contact</Nav.Link>
           <NavDropdown
             title={firebase.getCurrentUsername()}

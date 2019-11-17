@@ -1,8 +1,9 @@
 import React from "react";
 import { Typography, Paper, Avatar } from "@material-ui/core";
-import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
+import VerifiedUserOutlined from "@material-ui/icons/Person";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { withRouter } from "react-router-dom";
+import firebase from "../firebase";
 
 import NavigationBar from "../NavigationBar";
 
@@ -63,6 +64,9 @@ const styles = theme => ({
 function Profile(props) {
   const { classes } = props;
 
+  const currentUser = firebase.getCurrentUserObject();
+  console.log(currentUser);
+
   return (
     <main className={classes.main}>
       <NavigationBar />
@@ -70,7 +74,14 @@ function Profile(props) {
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
-        <Typography>This is where your profile page will be...</Typography>
+        <Typography>
+          {currentUser.displayName} <br />
+          {currentUser.email} <br />
+          {currentUser.phoneNumber
+            ? currentUser.phoneNumber
+            : `(update phone number)`}{" "}
+          <br />
+        </Typography>
       </Paper>
     </main>
   );

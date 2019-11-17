@@ -58,7 +58,9 @@ const styles = theme => ({
     width: "auto"
   },
   Jumbotron: {
-    textAlign: "center"
+    textAlign: "center",
+    background:
+      "linear-gradient(120deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
   }
 });
 
@@ -71,7 +73,6 @@ function Dashboard(props) {
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
-        <Typography>Still under construction, check back soon...</Typography>
         <Jumbotron className={classes.Jumbotron} fluid>
           <Container>
             <h5>Welcome to your</h5>
@@ -93,7 +94,7 @@ function Dashboard(props) {
                   type="submit"
                   variant="secondary"
                   href={"/inventory"}
-                  className={classes.root2}
+                  className={classes.root1}
                 >
                   Inventory
                 </Button>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import firebase from "../firebase";
 
-const AddToWishList = props => {
+const AddToWishList = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
@@ -13,23 +13,38 @@ const AddToWishList = props => {
     setShow(true);
   };
 
-  const [year, setYear] = useState('');
-  const [make, setMake] = useState('');
-  const [model, setModel] = useState('');
-  const [price, setPrice] = useState('');
-  const [miles, setMiles] = useState('');
+  const [year, setYear] = useState("");
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
+  const [priceMax, setPriceMax] = useState("");
+  const [milesMax, setMilesMax] = useState("");
 
   const newVehicle = {
     year,
     make,
     model,
-    price,
-    miles
+    priceMax,
+    milesMax
+  };
+
+  const isFormValid = () => {
+    return !!year &&
+      !!make &&
+      !!model &&
+      !!priceMax &&
+      !!milesMax
+      ? true
+      : false;
   };
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button
+        style={{
+          backgroundColor: "#4da6ff"
+        }}
+        onClick={handleShow}
+      >
         Add To Your WishList
       </Button>
       <Modal show={show} onHide={handleClose}>
@@ -39,16 +54,16 @@ const AddToWishList = props => {
         <Modal.Body>
           <Form>
             <Form.Group controlId="formYear">
-              <Form.Label>Year</Form.Label>
+              {/* <Form.Label>Year</Form.Label> */}
               <Form.Control
                 name="year"
                 onChange={e => setYear(e.target.value)}
                 type="number"
-                placeholder="Enter year"
+                placeholder="Year"
               />
             </Form.Group>
             <Form.Group controlId="formMake">
-              <Form.Label>Make</Form.Label>
+              {/* <Form.Label>Make</Form.Label> */}
               <Form.Control
                 name="make"
                 onChange={e => setMake(e.target.value)}
@@ -57,7 +72,7 @@ const AddToWishList = props => {
               />
             </Form.Group>
             <Form.Group controlId="formModel">
-              <Form.Label>Model</Form.Label>
+              {/* <Form.Label>Model</Form.Label> */}
               <Form.Control
                 name="model"
                 onChange={e => setModel(e.target.value)}
@@ -65,27 +80,29 @@ const AddToWishList = props => {
                 placeholder="Model"
               />
             </Form.Group>
-            <Form.Group controlId="formPrice">
-              <Form.Label>Maximum Price</Form.Label>
+            <Form.Group controlId="formPriceMax">
+              {/* <Form.Label>Maximum Price</Form.Label> */}
               <Form.Control
-                name="price"
-                onChange={e => setPrice(e.target.value)}
+                name="priceMax"
+                onChange={e => setPriceMax(e.target.value)}
                 type="number"
-                placeholder="Max Price"
+                placeholder="Maximum Price"
               />
             </Form.Group>
-            <Form.Group controlId="formMiles">
-              <Form.Label>Miles</Form.Label>
+            <Form.Group controlId="formMilesMax">
+              {/* <Form.Label>Maximum Miles</Form.Label> */}
               <Form.Control
-                name="miles"
-                onChange={e => setMiles(e.target.value)}
+                name="milesMax"
+                onChange={e => setMilesMax(e.target.value)}
                 type="number"
-                placeholder="Max Mileage"
+                placeholder="Maximum Mileage"
               />
             </Form.Group>
             <Button
-              variant="primary"
-              size="md"
+            disabled={!isFormValid()}
+              style={{
+                backgroundColor: "#4da6ff"
+              }}
               block
               onClick={() => {
                 handleClose();

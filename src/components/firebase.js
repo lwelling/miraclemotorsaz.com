@@ -18,9 +18,6 @@ class Firebase {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.firestore();
-    this.state = {
-      isAuth: false
-    };
   }
 
   login(email, password) {
@@ -33,9 +30,20 @@ class Firebase {
 
   async register(name, email, password) {
     await this.auth.createUserWithEmailAndPassword(email, password);
+    this.createWishList(`${this.auth.currentUser.uid}`);
     return this.auth.currentUser.updateProfile({
       displayName: name
     });
+  }
+
+  async createWishList(uid) {
+    await this.db
+      .collection("wishLists")
+      .doc(uid)
+      .set({
+        listItems: [],
+        owner: `/users/${uid}`
+      });
   }
 
   addPreference({ preference }) {
@@ -52,20 +60,17 @@ class Firebase {
     });
   }
 
-  addToWishList(newVehicle) {
-    const { year, make, model, miles, price } = newVehicle;
-    const wishListRef = this.db
-      .collection("users")
-      .doc(`${this.auth.currentUser.uid}`)
-      .collection("wishList");
-
-    wishListRef.add({
-      year,
-      make,
-      model,
-      miles,
-      price
-    });
+  async addToWishList(newVehicle) {
+    const ref = await this.db.doc(`wishLists/${this.auth.currentUser.uid}`);
+    const existingWishes = await ref
+      .get()
+      .then(doc => doc.data())
+      .then(list => list.listItems);
+    const newWishes = [...existingWishes, newVehicle];
+    await ref
+      .update({ listItems: newWishes })
+      .then(success => /* update wishlist UI here */ success)
+      .catch(err => console.error("error: ", err));
   }
 
   updateEmailPreference() {
@@ -82,6 +87,10 @@ class Firebase {
 
   getCurrentUsername() {
     return this.auth.currentUser && this.auth.currentUser.displayName;
+  }
+
+  getCurrentUserObject() {
+    return this.auth.currentUser
   }
 
   checkAuthStatus() {
@@ -115,22 +124,41 @@ class Firebase {
   }
 
   async getWishList() {
-    const ref = await this.getWishListRef();
-    const list = await this.db.doc(`/wishLists/${ref.id}`)
+    const list = await this.db
+      .doc(`/wishLists/${this.auth.currentUser.uid}`)
       .get()
       .then(doc => doc.data());
+    console.log(list);
     return list;
   }
 
   async getWishListRef() {
     if (!this.auth.currentUser) {
+      console.log("logged-out");
       return null;
     }
     const wishListRef = await this.db
       .doc(`users/${this.auth.currentUser.uid}`)
       .get()
-      .then(doc => doc.data().wishListRef)
+      .then(doc => doc.data().wishListRef);
+    console.log("logged-in");
     return wishListRef;
+  }
+
+  async deleteFromWishList(deleteThisCar) {
+    const ref = await this.db.doc(`wishLists/${this.auth.currentUser.uid}`);
+    let existingWishes = await ref
+      .get()
+      .then(doc => doc.data())
+      .then(list => list.listItems);
+
+    existingWishes.splice(deleteThisCar, 1);
+
+    await ref
+      .update({ listItems: existingWishes })
+      .then(() => {
+      })
+      .catch(err => console.error("error: ", err));
   }
 }
 

@@ -1,13 +1,12 @@
 import React from "react";
 import { Paper, Avatar } from "@material-ui/core";
-import VerifiedUserOutlined from "@material-ui/icons/DirectionsCarOutlined";
+import VerifiedUserOutlined from "@material-ui/icons/CardGiftcard";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import NavigationBar from "../NavigationBar";
 import AddToWishList from "../AddToWishList";
 import DisplayWishList from "../DisplayWishList";
-import firebase from '../firebase';
-
+import app from "firebase/app";
 
 const styles = theme => ({
   main: {
@@ -65,29 +64,33 @@ const styles = theme => ({
 });
 
 class WishList extends React.Component {
-
   state = {
-    wishListItems: [],
+    wishListItems: []
   };
 
-  componentDidMount() {
-    this.updateWishList();
-  }
+  componentDidMount = async () => {
+    this.unsubscribe = app
+      .firestore()
+      .doc(`/wishLists/${app.auth().currentUser.uid}`)
+      .onSnapshot(snapshot => {
+        const wishes = snapshot.data();
+        if (wishes && wishes.listItems) {
+          this.setState(prevState => ({
+            ...prevState,
+            wishListItems: wishes.listItems
+          }));
+        }
+      });
+  };
 
-  updateWishList = async () => {
-    const wishList = await firebase.getWishList();
-    if (wishList && wishList.listItems) {
-      this.setState(prevState => ({
-        ...prevState,
-        wishListItems: wishList.listItems,
-      }));
-    }
-  }
+  componentWillUnmount = () => {
+    this.unsubscribe();
+  };
+
+  unsubscribe = null;
 
   render() {
     const { classes } = this.props;
-
-    console.log('this.state.wishListItems: ', this.state.wishListItems);
     return (
       <main className={classes.main}>
         <NavigationBar />
