@@ -1,110 +1,78 @@
 import React from "react";
-import { Typography, Paper, Avatar } from "@material-ui/core";
-import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
-import withStyles from "@material-ui/core/styles/withStyles";
-import { Button, Jumbotron, Container, Col, Row } from "react-bootstrap";
+import { Tooltip, Typography, Paper, Avatar } from "@material-ui/core";
+import { Button, Container, Col, Row, Image } from "react-bootstrap";
+import { useTheme } from "@material-ui/styles";
 
-import NavigationBar from "../NavigationBar";
+import firebase from "../firebase";
+// import UpdatePhoneNumber from "../UpdatePhoneNumber";
 
-const styles = theme => ({
-  main: {
-    width: "auto",
-    backgroundColor: "#e6f2ff",
-    display: "block", // Fix IE 11 issue.
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    [theme.breakpoints.up(400 + theme.spacing(2) * 2)]: {
-      width: "auto",
-      height: "100%",
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  paper: {
-    background:
-      "linear-gradient(175deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
-    marginTop: theme.spacing(2),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: `${theme.spacing(2)}px ${theme.spacing(2)}px ${theme.spacing(
-      2
-    )}px ${theme.spacing(2)}px`
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: "#4da6ff",
-    secondary: "red"
-  },
-  root1: {
-    marginTop: theme.spacing(3),
-    backgroundColor: "#4da6ff",
-    "&:hover": {
-      background: "#99ccff"
-    }
-  },
-  root2: {
-    marginTop: theme.spacing(3),
-    backgroundColor: "#ff6666",
-    "&:hover": {
-      background: "#ff9999"
-    }
-  },
-  fauxList: {
-    listStyleType: "none"
-  },
-  NavBrand: {
-    height: theme.spacing(10),
-    width: "auto"
-  },
-  Jumbotron: {
-    textAlign: "center",
-    background:
-      "linear-gradient(120deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
-  }
-});
+function Dashboard() {
+  const theme = useTheme();
+  const currentUser = firebase.getCurrentUserObject();
+  const dateCreated = "Joined " + currentUser.metadata.creationTime;
 
-function Dashboard(props) {
-  const { classes } = props;
+  const name = currentUser.displayName
+  const firstName = name.split(' ').slice(0, -1).join(' ');
   return (
-    <main className={classes.main}>
-      <NavigationBar />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <VerifiedUserOutlined />
-        </Avatar>
-        <Jumbotron className={classes.Jumbotron} fluid>
-          <Container>
-            <h5>Welcome to your</h5>
-            <h1>Dashboard</h1>
-            <Row>
-              <Col>
-                <Button
-                  type="submit"
-                  variant="primary"
-                  href={"/wishlist"}
-                  className={classes.root1}
-                >
-                  WishList
-                </Button>{" "}
+    <main style={theme.main}>
+      <Paper style={theme.paper}>
+      <Avatar className="center" style={theme.dashboardAvatar}>
+                {currentUser.photoURL ? (
+                  <Image fluid src={currentUser.photoURL} roundedCircle />
+                ) : (
+                  null
+                )}
+              </Avatar>
+        <Container>
+          <Row>
+            <Col>
+              <Tooltip title={dateCreated} placement="top-end">
+                <h1>{firstName},</h1>
+              </Tooltip>
+              <h5>Welcome to your Dashboard,</h5>
+              <Typography style={{color: "grey" }} variant="overline" display="block" gutterBottom>
+                {currentUser.email}
+                {currentUser.emailVerified ? (
+                  <sup>
+                    <span style={theme.checkMark}>&#10004;</span>
+                  </sup>
+                ) : null}
                 <br />
-              </Col>
-              <Col>
-                <Button
-                  type="submit"
-                  variant="secondary"
-                  href={"/inventory"}
-                  className={classes.root1}
-                >
-                  Inventory
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </Jumbotron>
+                {/* <UpdatePhoneNumber /> */}
+              </Typography>
+            </Col>
+            <Col>
+              <Row>
+                <Col>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    href={"/wishlist"}
+                    style={theme.root1}
+                  >
+                    WishList
+                  </Button>
+                  <br />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button
+                    type="submit"
+                    variant="secondary"
+                    href={"/inventory"}
+                    style={theme.root1}
+                  >
+                    Inventory
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
       </Paper>
     </main>
   );
 }
 
-export default withStyles(styles)(Dashboard);
+export default Dashboard;

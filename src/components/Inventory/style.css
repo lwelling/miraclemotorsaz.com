@@ -1,0 +1,11 @@
+.permanentMarkerForSale {
+    font-family: 'Permanent Marker', 
+    cursive;
+    color: #2c8a00;
+    font-size: 220%
+}
+
+.responsive-image {
+    position: relative;
+    width: 100%;
+  }

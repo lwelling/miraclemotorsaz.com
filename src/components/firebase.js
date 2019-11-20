@@ -18,32 +18,68 @@ class Firebase {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.firestore();
+    this.provider = new app.auth.GoogleAuthProvider();
   }
+
+  async signInWithGoogle(props) {
+    try {
+      // await this.auth.signInWithRedirect(this.provider);
+      await this.auth.signInWithPopup(this.provider);
+      this.createWishList(`${this.auth.currentUser.uid}`);
+      props.history.replace("/dashboard");
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async registerWithEmail(props, displayName, email, password) {
+    if (!!email && !!displayName && !!password) {
+      try {
+        await this.auth.createUserWithEmailAndPassword(email, password);
+        this.createWishList(`${this.auth.currentUser.uid}`);
+        this.auth.currentUser.updateProfile({
+          displayName
+        });
+        props.history.replace("/dashboard");
+      } catch (error) {
+        alert(error.message);
+      }
+    } else {
+      alert("Please fill out form entirely");
+    }
+  }
+
+  // updatePhoneNumber(phoneNumber) {
+  //   try {
+  //     this.auth.currentUser.updatePhoneNumber({
+  //       phoneNumber
+  //     });
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // }
 
   login(email, password) {
     return this.auth.signInWithEmailAndPassword(email, password);
   }
 
-  logout() {
-    return this.auth.signOut();
+  async logout(props) {
+    await this.auth.signOut();
+    props.history.push("/");
   }
 
-  async register(name, email, password) {
-    await this.auth.createUserWithEmailAndPassword(email, password);
-    this.createWishList(`${this.auth.currentUser.uid}`);
-    return this.auth.currentUser.updateProfile({
-      displayName: name
+  createWishList(uid) {
+    const ref = this.db.collection("wishLists").doc(uid);
+    ref.get().then(docSnapshot => {
+      if (docSnapshot.exists) {
+        return null;
+      } else {
+        ref.set({
+          listItems: [],
+          owner: `/users/${uid}`
+        });
+      }
     });
-  }
-
-  async createWishList(uid) {
-    await this.db
-      .collection("wishLists")
-      .doc(uid)
-      .set({
-        listItems: [],
-        owner: `/users/${uid}`
-      });
   }
 
   addPreference({ preference }) {
@@ -69,6 +105,53 @@ class Firebase {
     const newWishes = [...existingWishes, newVehicle];
     await ref
       .update({ listItems: newWishes })
+      .then(success => success)
+      .catch(err => console.error("error: ", err));
+  }
+
+  async updatePhoneNumber(phoneNumber) {
+    const uid = `${this.auth.currentUser.uid}`;
+    await this.db
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then(() => {
+        this.db
+          .collection("users")
+          .doc(uid)
+          .set({
+            phoneNumber
+          });
+      });
+  }
+
+  getPhoneNumber() {
+    const uid = `${this.auth.currentUser.uid}`;
+    this.db
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then(dataSnapshot => {
+        if (dataSnapshot.exists) {
+          const number = dataSnapshot.data().phoneNumber 
+          return number
+        } else {
+          return null
+        }
+      });
+  }
+
+  async updateWishList(newVehicle, currentIdx) {
+    await this.deleteFromWishList(currentIdx);
+    const ref = await this.db.doc(`wishLists/${this.auth.currentUser.uid}`);
+    const existingWishes = await ref
+      .get()
+      .then(doc => doc.data())
+      .then(list => list.listItems);
+    let newWishes = [...existingWishes];
+    newWishes.splice(currentIdx, 0, newVehicle);
+    await ref
+      .update({ listItems: newWishes })
       .then(success => /* update wishlist UI here */ success)
       .catch(err => console.error("error: ", err));
   }
@@ -86,11 +169,11 @@ class Firebase {
   }
 
   getCurrentUsername() {
-    return this.auth.currentUser && this.auth.currentUser.displayName;
+    return this.auth.currentUser.displayName;
   }
 
   getCurrentUserObject() {
-    return this.auth.currentUser
+    return this.auth.currentUser;
   }
 
   checkAuthStatus() {
@@ -98,7 +181,7 @@ class Firebase {
     if (user) {
       return true;
     } else {
-      return false;
+      return null;
     }
   }
 
@@ -128,20 +211,17 @@ class Firebase {
       .doc(`/wishLists/${this.auth.currentUser.uid}`)
       .get()
       .then(doc => doc.data());
-    console.log(list);
     return list;
   }
 
   async getWishListRef() {
     if (!this.auth.currentUser) {
-      console.log("logged-out");
       return null;
     }
     const wishListRef = await this.db
       .doc(`users/${this.auth.currentUser.uid}`)
       .get()
       .then(doc => doc.data().wishListRef);
-    console.log("logged-in");
     return wishListRef;
   }
 
@@ -156,8 +236,7 @@ class Firebase {
 
     await ref
       .update({ listItems: existingWishes })
-      .then(() => {
-      })
+      .then(() => {})
       .catch(err => console.error("error: ", err));
   }
 }

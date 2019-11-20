@@ -2,24 +2,22 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import firebase from "../firebase";
 
-const AddToWishList = () => {
+const VehicleEditor = ({ vehicle, idx, action }) => {
   const [show, setShow] = useState(false);
-
-  const handleClose = () => {
-    setShow(false);
-  };
-
   const handleShow = () => {
     setShow(true);
   };
+  const handleClose = () => {
+    setShow(false);
+    resetNewVehicle();
+  };
+  const [year, setYear] = useState(vehicle ? vehicle.year : "");
+  const [make, setMake] = useState(vehicle ? vehicle.make : "");
+  const [model, setModel] = useState(vehicle ? vehicle.model : "");
+  const [price, setPrice] = useState(vehicle ? vehicle.price : "");
+  const [mileage, setMileage] = useState(vehicle ? vehicle.mileage : "");
 
-  const [year, setYear] = useState("");
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
-  const [price, setPrice] = useState("");
-  const [mileage, setMileage] = useState("");
-
-  const newVehicle = {
+  let newVehicle = {
     year,
     make,
     model,
@@ -27,20 +25,27 @@ const AddToWishList = () => {
     mileage
   };
 
-
   const isFormValid = () => {
-    return !!year && !!make && !!model && !!price && !!mileage
-      ? true
-      : false;
+    return vehicle
+      ? vehicle.year &&
+          vehicle.make &&
+          vehicle.model &&
+          vehicle.price &&
+          vehicle.mileage
+      : newVehicle.year &&
+          newVehicle.make &&
+          newVehicle.model &&
+          newVehicle.price &&
+          newVehicle.mileage;
   };
 
   const resetNewVehicle = () => {
-    setYear("")
-    setMake("")
-    setModel("")
-    setPrice("")
-    setMileage("")
-  }
+    setYear("");
+    setMake("");
+    setModel("");
+    setPrice("");
+    setMileage("");
+  };
 
   return (
     <>
@@ -50,57 +55,57 @@ const AddToWishList = () => {
         }}
         onClick={handleShow}
       >
-        Add To Your WishList
+        {action ? action : `Edit`}
       </Button>
       <Modal centered={true} show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title centered="true">Add To Your WishList</Modal.Title>
+          <Modal.Title centered="true"></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group controlId="formYear">
-              {/* <Form.Label>Year</Form.Label> */}
               <Form.Control
                 name="year"
                 onChange={e => setYear(e.target.value)}
                 type="number"
                 placeholder="Year"
+                defaultValue={vehicle ? vehicle.year : null}
               />
             </Form.Group>
             <Form.Group controlId="formMake">
-              {/* <Form.Label>Make</Form.Label> */}
               <Form.Control
                 name="make"
                 onChange={e => setMake(e.target.value)}
                 type="text"
                 placeholder="Make"
+                defaultValue={vehicle ? vehicle.make : null}
               />
             </Form.Group>
             <Form.Group controlId="formModel">
-              {/* <Form.Label>Model</Form.Label> */}
               <Form.Control
                 name="model"
                 onChange={e => setModel(e.target.value)}
                 type="text"
                 placeholder="Model"
+                defaultValue={vehicle ? vehicle.model : null}
               />
             </Form.Group>
             <Form.Group controlId="formPrice">
-              {/* <Form.Label>Maximum Price</Form.Label> */}
               <Form.Control
                 name="price"
                 onChange={e => setPrice(e.target.value)}
                 type="number"
                 placeholder="Maximum Price"
+                defaultValue={vehicle ? vehicle.price : null}
               />
             </Form.Group>
             <Form.Group controlId="formMileage">
-              {/* <Form.Label>Maximum Price</Form.Label> */}
               <Form.Control
                 name="mileage"
                 onChange={e => setMileage(e.target.value)}
                 type="number"
                 placeholder="Maximum Mileage"
+                defaultValue={vehicle ? vehicle.mileage : null}
               />
             </Form.Group>
             <Button
@@ -109,13 +114,12 @@ const AddToWishList = () => {
                 backgroundColor: "#4da6ff"
               }}
               block
-              onClick={() => {
+              onClick={async () => {
+                await firebase.updateWishList(newVehicle, idx);
                 handleClose();
-                resetNewVehicle();
-                firebase.addToWishList(newVehicle);
               }}
             >
-              Add
+              Confirm
             </Button>
           </Form>
         </Modal.Body>
@@ -124,4 +128,4 @@ const AddToWishList = () => {
   );
 };
 
-export default AddToWishList;
+export default VehicleEditor;

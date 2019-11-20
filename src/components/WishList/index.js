@@ -3,7 +3,6 @@ import { Paper, Avatar } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/CardGiftcard";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import NavigationBar from "../NavigationBar";
 import AddToWishList from "../AddToWishList";
 import DisplayWishList from "../DisplayWishList";
 import app from "firebase/app";
@@ -93,7 +92,6 @@ class WishList extends React.Component {
     const { classes } = this.props;
     return (
       <main className={classes.main}>
-        <NavigationBar />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <VerifiedUserOutlined />
