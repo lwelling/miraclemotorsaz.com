@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import firebase from "../firebase";
+import { useTheme } from "@material-ui/styles";
 
 const VehicleEditor = ({ vehicle, idx, action }) => {
   const [show, setShow] = useState(false);
+  const theme = useTheme();
   const handleShow = () => {
     setShow(true);
   };
@@ -49,12 +51,13 @@ const VehicleEditor = ({ vehicle, idx, action }) => {
 
   return (
     <>
-      <Button
-        style={{
-          backgroundColor: "#4da6ff"
-        }}
-        onClick={handleShow}
-      >
+          <Button
+            onClick={handleShow}
+            fullwidth="true"
+            variant="contained"
+            color="secondary"
+            style={theme.root1}
+          >
         {action ? action : `Edit`}
       </Button>
       <Modal centered={true} show={show} onHide={handleClose}>

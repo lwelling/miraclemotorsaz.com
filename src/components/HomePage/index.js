@@ -1,10 +1,9 @@
 import React from "react";
 import { Typography, Paper, Button, useTheme } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
-
-import firebase from "../firebase";
 import { Container, Row, Col } from "react-bootstrap";
 
+import firebase from "../firebase";
 import googleIcon from "./gSuiteIcon.png";
 import logo from "../../MM-Icon1.png";
 

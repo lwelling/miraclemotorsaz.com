@@ -19,7 +19,24 @@ class Firebase {
     this.auth = app.auth();
     this.db = app.firestore();
     this.provider = new app.auth.GoogleAuthProvider();
+    this.facebookProvider = new app.auth.FacebookAuthProvider();
   }
+
+  // async signInWithFacebook(props) {
+  //   try {
+  //     await this.auth.signInWithPopup(this.facebookProvider);
+  //     this.createWishList(`${this.auth.currentUser.uid}`);
+  //     props.history.replace("/dashboard");
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // }
+
+  // async checkFacebookLoginState() {
+  //   await FB.getLoginStatus(function(response) {
+  //     statusChangeCallback(response);
+  //   });
+  // }
 
   async signInWithGoogle(props) {
     try {

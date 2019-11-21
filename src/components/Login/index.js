@@ -15,12 +15,15 @@ import { Link, Redirect } from "react-router-dom";
 import firebase from "../firebase";
 
 function SignIn(props) {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const theme = useTheme(); 
+  const theme = useTheme();
 
-  return firebase.checkAuthStatus() === true ? (<Redirect to={{ pathname: '/dashboard', state: { from: props.location }}} />) : (
+  return firebase.checkAuthStatus() === true ? (
+    <Redirect
+      to={{ pathname: "/dashboard", state: { from: props.location } }}
+    />
+  ) : (
     <main style={theme.main}>
       <Paper style={theme.paper}>
         <Avatar style={theme.avatar}>
@@ -29,17 +32,13 @@ function SignIn(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form
-          style={theme.form}
-          onSubmit={e => e.preventDefault() && false}
-        >
+        <form style={theme.form} onSubmit={e => e.preventDefault() && false}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input
               id="email"
               name="email"
               autoComplete="off"
-              autoFocus
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
@@ -57,7 +56,7 @@ function SignIn(props) {
           </FormControl>
           <Button
             type="submit"
-            fullWidth
+            fullwidth="true"
             variant="contained"
             color="primary"
             onClick={login}
@@ -67,7 +66,7 @@ function SignIn(props) {
           </Button>
           <Button
             type="submit"
-            fullWidth
+            fullwidth="true"
             variant="contained"
             color="secondary"
             component={Link}

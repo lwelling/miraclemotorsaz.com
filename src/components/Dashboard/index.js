@@ -11,26 +11,29 @@ function Dashboard() {
   const currentUser = firebase.getCurrentUserObject();
   const dateCreated = "Joined " + currentUser.metadata.creationTime;
 
-  const name = currentUser.displayName
-  const firstName = name.split(' ').slice(0, -1).join(' ');
+  const firstName = currentUser.displayName
+    ? currentUser.displayName
+        .split(" ")
+        .slice(0, -1)
+        .join(" ")
+    : null;
+
   return (
     <main style={theme.main}>
       <Paper style={theme.paper}>
-      <Avatar className="center" style={theme.dashboardAvatar}>
-                {currentUser.photoURL ? (
-                  <Image fluid src={currentUser.photoURL} roundedCircle />
-                ) : (
-                  null
-                )}
-              </Avatar>
-        <Container>
+        <Container style={theme.siteText}>
           <Row>
             <Col>
               <Tooltip title={dateCreated} placement="top-end">
-                <h1>{firstName},</h1>
+                <h1>{firstName}</h1>
               </Tooltip>
-              <h5>Welcome to your Dashboard,</h5>
-              <Typography style={{color: "grey" }} variant="overline" display="block" gutterBottom>
+              <h5>Welcome to your Dashboard</h5>
+              <Typography
+                style={{ color: "grey" }}
+                variant="overline"
+                display="block"
+                gutterBottom
+              >
                 {currentUser.email}
                 {currentUser.emailVerified ? (
                   <sup>
@@ -43,6 +46,13 @@ function Dashboard() {
             </Col>
             <Col>
               <Row>
+                <Avatar style={theme.dashboardAvatar}>
+                  {currentUser.photoURL ? (
+                    <Image fluid src={currentUser.photoURL} roundedCircle />
+                  ) : null}
+                </Avatar>
+              </Row>
+              <Row>
                 <Col>
                   <Button
                     type="submit"
@@ -50,7 +60,7 @@ function Dashboard() {
                     href={"/wishlist"}
                     style={theme.root1}
                   >
-                    WishList
+                    My WishList
                   </Button>
                   <br />
                 </Col>
@@ -63,7 +73,7 @@ function Dashboard() {
                     href={"/inventory"}
                     style={theme.root1}
                   >
-                    Inventory
+                    Browse Inventory
                   </Button>
                 </Col>
               </Row>

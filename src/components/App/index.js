@@ -18,8 +18,10 @@ import NavigationBar from "../NavigationBar";
 import Footer from "../Footer";
 
 const theme = createMuiTheme({
+  siteText: {
+    fontFamily: "Open Sans,sans-serif"
+  },
   main: {
-    fontFamily: "Raleway,sans-serif",
     fontSize: "3em",
     width: "auto",
     display: "block",
@@ -38,7 +40,7 @@ const theme = createMuiTheme({
   card: {
     background:
       "linear-gradient(77deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
-    marginTop: "5%",
+    margin: "5%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -53,38 +55,54 @@ const theme = createMuiTheme({
     backgroundColor: "#4da6ff"
   },
   dashboardAvatar: {
-    width: "5em", 
+    width: "5em",
     height: "auto",
-    display: "flex",
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "block",
+    margin: "auto",
+    // justifyContent: "center",
+    // alignItems: "center"
   },
   root1: {
-    marginTop: "24px",
+    marginBottom: "17px",
     backgroundColor: "#4da6ff",
-    fontFamily: "Raleway,sans-serif",
     width: "100%",
+    color: "white",
   },
   root2: {
-    marginTop: "24px",
+    marginBottom: "17px",
     backgroundColor: "#ff6666",
-    fontFamily: "Raleway,sans-serif",
     width: "100%",
-
+    color: "white",
   },
   root3: {
-    marginTop: "24px",
+    marginBottom: "17px",
     width: "84%",
     background:
       "linear-gradient(13deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
-    fontFamily: "Raleway,sans-serif",
-  },
+    },
   checkMark: {
-    color: "#4da6ff",
+    color: "#4da6ff"
   },
   NavBrand: {
     height: "80px",
     width: "auto"
+  },
+  flexContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    width: "90%",
+    height: "auto",
+    background:
+      "linear-gradient(5deg, rgba(213,233,255,1) 0%, rgba(255,255,255,1) 30%)",
+    margin: "5px"
+  },
+  title: {
+    fontSize: "20px"
+  },
+  flexRow: {
+    display: "flex",
+    flexDirection: "row"
   }
 });
 

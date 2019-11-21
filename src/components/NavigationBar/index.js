@@ -1,14 +1,16 @@
 import React from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import { useTheme } from "@material-ui/styles";
 
 import firebase from "../firebase";
 
 import logo from "../../MM-Icon1.png";
 
 const NavigationBar = props => {
+  const theme = useTheme();
   return !firebase.checkAuthStatus() ? (
-    <Navbar bg="light" expand="lg">
+    <Navbar style={theme.siteText} bg="light" expand="lg">
       <Navbar.Brand href="/"></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -19,7 +21,7 @@ const NavigationBar = props => {
       </Navbar.Collapse>
     </Navbar>
   ) : (
-    <Navbar bg="light" expand="lg">
+    <Navbar style={theme.siteText} bg="light" expand="lg">
       <Navbar.Brand href="/">
         <img style={{ height: "75px", width: "auto" }} src={logo} alt="logo" />
       </Navbar.Brand>
